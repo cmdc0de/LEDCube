@@ -1,0 +1,6 @@
+[submodule "apa106/prototype1/components/esp-etl/etl"]
+	path = apa106/prototype1/components/esp-etl/etl
+	url = https://github.com/cmdc0de/etl
+[submodule "apa106/prototype1/components/libesp"]
+	path = apa106/prototype1/components/libesp
+	url = https://github.com/cmdc0de/libesp
