@@ -39,6 +39,8 @@ public:
     ONE,
     TWO
     , THREE
+    , FOUR
+    , FIVE
   };
 public:
 	static const char *LOGTAG;
@@ -46,7 +48,7 @@ public:
 	//static const int ITEM_SIZE = sizeof(MyAppMsg);
 	static const char *sYES;
 	static const char *sNO;
-  static const uint32_t TIME_BETWEEN_PULSES = 1000;
+  static const uint32_t TIME_BETWEEN_PULSES = 500;
 	static MyApp &get();
 public:
 	virtual ~MyApp();

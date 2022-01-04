@@ -72,8 +72,7 @@ libesp::ErrorType MyApp::onInit() {
 	return et;
 }
 
-static bool Down = true;
-
+static uint32_t count = 1;
 ErrorType MyApp::onRun() {
 #if 0
 		  return ErrorType();
@@ -101,6 +100,38 @@ ErrorType MyApp::onRun() {
       {
         LedControl.fillColor(RGB::WHITE);
         LedControl.send();
+        CurrentMode = FOUR;
+      }
+      break;
+    case FOUR:
+      {
+	uint8_t b = LedControl.getBrightness();
+	ESP_LOGI(LOGTAG,"brightness: %u", static_cast<uint32_t>(b));
+	if(b<40) {
+		LedControl.setBrightness(255);
+		CurrentMode = FIVE;
+	} else {
+		b = b-40;
+		LedControl.setBrightness(b);
+	}
+        LedControl.send();
+      }
+      break;
+    case FIVE:
+      {
+	RGB black(0,0,0);
+	LedControl.fillColor(black);
+	for(uint32_t i=0;i<count;++i) {
+		LedControl.setColor(i,RGB::BLUE);
+	}
+	if(count>8) {
+	   count=1;
+	   CurrentMode = ONE;
+	} else {
+	   ++count;
+	}
+        LedControl.send();
+
       }
       break;
     }
