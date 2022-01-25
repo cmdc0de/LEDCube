@@ -88,7 +88,7 @@ libesp::ErrorType MyApp::onInit() {
     }
   }
   const char * ssid = "dac-nh";
-  const char * pass = "DemetriusAndAnnemarie%0320";
+  const char * pass = "XXXXXX";
   et = wifi.connect(ssid,pass,WIFI_AUTH_OPEN);
   if(!et.ok()) {
     ESP_LOGI(LOGTAG, "connect error: %d %s", et.getErrT(), et.toString());
