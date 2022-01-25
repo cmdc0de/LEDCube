@@ -1,5 +1,5 @@
 set(srcs "./app.cpp"
-	"./espcoin.cpp"
+	"./ledcube.cpp"
 )
 
 idf_component_register(SRCS "${srcs}"

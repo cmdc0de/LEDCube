@@ -55,7 +55,7 @@ void app_main() {
 
    do {
 		et = MyApp::get().run();
-		//vTaskDelay(1 / portTICK_RATE_MS);
+		vTaskDelay(10 / portTICK_RATE_MS);
 	} while (et.ok());
 	vTaskDelay(3000 / portTICK_RATE_MS);
 }
