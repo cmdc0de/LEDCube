@@ -8,6 +8,8 @@
 #define LIGHTBOX_APP_H
 
 #include <app/app.h>
+#include <nvs_memory.h>
+#include <net/networktimeprotocol.h>
 
 namespace libesp {
 class GUI;
@@ -61,6 +63,8 @@ private:
 	MyErrorMap AppErrors;
   MODE CurrentMode;
   uint32_t LastTime;
+  libesp::NVS NVSStorage;
+  libesp::NTP NTPTime;
 private:
 	static MyApp mSelf;
 };

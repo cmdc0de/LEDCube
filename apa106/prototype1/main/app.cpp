@@ -37,13 +37,21 @@ const char *MyErrorMap::toString(int32_t err) {
 	return "TODO";
 }
 
+class MyWifiHandler : public libesp::WiFiEventHandler {
+  public:
+    MyWifiHandler() {}
+    virtual ~MyWifiHandler() {}
+};
+
+MyWifiHandler MyHandler;
+
 MyApp MyApp::mSelf;
 
 MyApp &MyApp::get() {
 	return mSelf;
 }
 
-MyApp::MyApp() : AppErrors(), CurrentMode(ONE), LastTime(0) {
+MyApp::MyApp() : AppErrors(), CurrentMode(ONE), LastTime(0), NVSStorage("app","app",false), NTPTime() {
 	ErrorType::setAppDetail(&AppErrors);
 }
 
@@ -52,22 +60,14 @@ MyApp::~MyApp() {
 }
 
 NoClkLedStrip LedControl = NoClkLedStrip::create(APA106::get(),127,9);
-libesp::WiFiEventHandler MyHandler;
+
 
 #define TEST_CODE
 libesp::ErrorType MyApp::onInit() {
 	ErrorType et;
 	ESP_LOGI(LOGTAG,"OnInit: Free: %u, Min %u", System::get().getFreeHeapSize(),System::get().getMinimumFreeHeapSize());
 #ifdef TEST_CODE
-  //esp_netif_init();
-  //esp_event_loop_create_default();
-  //esp_netif_t *sta_netif = esp_netif_create_default_wifi_sta();
-  //assert(sta_netif);
-
-  //wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-  //esp_wifi_init(&cfg);
-  //ESP_LOGI(LOGTAG,"after wifi config");
-
+  NTPTime.init(NVSStorage,true,nullptr);
   libesp::WiFi wifi;
   wifi.setWifiEventHandler(&MyHandler);
 	ESP_LOGI(LOGTAG,"OnInit: Free: %u, Min %u", System::get().getFreeHeapSize(),System::get().getMinimumFreeHeapSize());
@@ -88,13 +88,14 @@ libesp::ErrorType MyApp::onInit() {
     }
   }
   const char * ssid = "dac-nh";
-  const char * pass = "XXXXXX";
+  const char * pass = "XXX";
   et = wifi.connect(ssid,pass,WIFI_AUTH_OPEN);
   if(!et.ok()) {
     ESP_LOGI(LOGTAG, "connect error: %d %s", et.getErrT(), et.toString());
   } else {
     ESP_LOGI(LOGTAG, "connect call successful");
   }
+  NTPTime.start();
   
   return et;
 
